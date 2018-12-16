@@ -42,7 +42,7 @@ int main()
 	//avl_tree.Add(77, 100);
 
 	SplayTree<int, int> splay_tree;
-	const int SIZE = 10000;
+	const int SIZE = 1000;
 	int *arr = new int[SIZE];
 	
 	bool alreadyThere;
@@ -73,6 +73,17 @@ int main()
 		cout << i << " key & data = " << arr[i] << " & " << data << endl;
 		splay_tree.Insert(arr[i], data);
 	}
+
+	//for (int i = 0; i < 100000; i++)
+	//{
+	//	int key = distribution(generator);
+
+	//	cout << splay_tree.Contains(key) << " Search " << key << " has = " << splay_tree.Search(key) << endl;
+	//}
+
+	cout << "Elem with key " << arr[100] << " = " << splay_tree.Search(arr[100]) << endl;
+
+	int k = 1;
 
 	cout << "Splay Tree correct" << endl;
 

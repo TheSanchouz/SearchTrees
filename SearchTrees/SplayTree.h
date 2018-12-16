@@ -289,37 +289,33 @@ public:
 			delete removeElement;
 		}
 	}
+	Data Search(const Key &key)
+	{
+		SplayNode *searchedElement = _Search(key);
 
-	bool Contains(const Key *key) const
+		return (searchedElement != nullptr) ? searchedElement->GetData() : NULL;
+	}
+
+	bool Contains(const Key &key)
 	{
 		return _Search(key) != nullptr;
 	}
 	bool Empty() const
 	{
-		return root == nullptr;
+		return (root == nullptr);
 	}
 
 	Data Successor(const Key &key)
 	{
-		if (_Successor(_Search(key) != nullptr))
-		{
-			return _Successor(_Search(key))->GetData();
-		}
-		else
-		{
-			return NULL;
-		}
+		SplayNode *successor = _Successor(_Search(key));
+
+		return (successor != nullptr) ? successor->GetData() : NULL;
 	}
 	Data Predecessor(const Key &key)
 	{
-		if (_Predecessor(_Search(key) != nullptr))
-		{
-			return _Predecessor(_Search(key))->GetData();
-		}
-		else
-		{
-			return NULL;
-		}
+		SplayNode *predecessor = _Predecessor(_Search(key));
+
+		return (predecessor != nullptr) ? predecessor->GetData() : NULL;
 	}
 
 };

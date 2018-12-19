@@ -19,8 +19,8 @@ public:
 	}
 	~SplayNode()
 	{
-		delete leftChild;
-		delete rightChild;
+		//delete leftChild;
+		//delete rightChild;
 	}
 
 	Key GetKey() const

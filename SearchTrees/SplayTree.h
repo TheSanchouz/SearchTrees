@@ -8,6 +8,11 @@ class SplayTree
 private:
 	SplayNode *root;
 
+	SplayNode* GetRoot() const
+	{
+		return root;
+	}
+
 	SplayNode* _Successor(SplayNode *localRoot) const
 	{
 		SplayNode *successor = localRoot;
@@ -214,7 +219,7 @@ public:
 	}
 	virtual ~SplayTree() 
 	{
-		delete root;
+		//delete root;
 	}
 
 	void Insert(const Key &key, const Data &data)
@@ -262,11 +267,11 @@ public:
 		{
 			if (removeElement->GetLeftChild() == nullptr)
 			{
-				_Transplant(removeElement, removeElement->GetLeftChild());
+				_Transplant(removeElement, removeElement->GetRightChild());
 			}
 			else if (removeElement->GetRightChild() == nullptr)
 			{
-				_Transplant(removeElement, removeElement->GetRightChild());
+				_Transplant(removeElement, removeElement->GetLeftChild());
 			}
 			else
 			{
@@ -288,6 +293,8 @@ public:
 
 			delete removeElement;
 		}
+
+		std::cout << root << std::endl;
 	}
 	Data Search(const Key &key)
 	{
@@ -318,4 +325,14 @@ public:
 		return (predecessor != nullptr) ? predecessor->GetData() : NULL;
 	}
 
+	void Merge(SplayTree t)
+	{
+		SplayNode *max = _Maximum(root);
+
+		if (max != nullptr)
+		{
+			max->SetRightChild(t->GetRoot());
+			t->GetRoot()->SetParent(max);
+		}
+	}
 };

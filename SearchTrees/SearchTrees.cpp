@@ -1,6 +1,10 @@
 ﻿// SearchTrees.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 
+//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
+
 #include "pch.h"
 #include <iostream>
 #include <string>
@@ -15,7 +19,7 @@ int main()
 {
 	random_device random_device;
 	mt19937 generator(random_device());
-	uniform_int_distribution<int> distribution(-1000000000, 1000000000);
+	uniform_int_distribution<int> distribution(-10000, 10000);
 
 	//avl_tree<int, int> avl_tree;
 
@@ -42,7 +46,7 @@ int main()
 	//avl_tree.Add(77, 100);
 
 	SplayTree<int, int> splay_tree;
-	const int SIZE = 1000;
+	const int SIZE = 100;
 	int *arr = new int[SIZE];
 	
 	bool alreadyThere;
@@ -74,6 +78,19 @@ int main()
 		splay_tree.Insert(arr[i], data);
 	}
 
+	for (int i = 0; i < SIZE; i++)
+	{
+		cout << splay_tree.Contains(arr[i]) << " Search " << arr[i] << " has = " << splay_tree.Search(arr[i]) << endl;
+	}
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		int key = (i + 5) % SIZE;
+
+		cout << key << " to delete with key = " << arr[key] << endl;
+		splay_tree.Remove(arr[key]);
+	}
+
 	//for (int i = 0; i < 100000; i++)
 	//{
 	//	int key = distribution(generator);
@@ -81,11 +98,11 @@ int main()
 	//	cout << splay_tree.Contains(key) << " Search " << key << " has = " << splay_tree.Search(key) << endl;
 	//}
 
-	cout << "Elem with key " << arr[100] << " = " << splay_tree.Search(arr[100]) << endl;
-
-	int k = 1;
+	//cout << "Elem with key " << arr[100] << " = " << splay_tree.Search(arr[100]) << endl;
 
 	cout << "Splay Tree correct" << endl;
+
+	//_CrtDumpMemoryLeaks();
 
 	return 0;
 }

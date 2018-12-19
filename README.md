@@ -34,7 +34,7 @@
 1. [habr 1/3](https://habr.com/post/101818/)
 2. [habr 2/3](https://habr.com/post/102006/)
 3. [habr 3/3](https://habr.com/post/102364/)
-4. [e-maxx](http://e-maxx.ru/algo/treap/)
+4. [e-maxx](http://e-maxx.ru/algo/treap)
 5. [wikipedia](https://ru.wikipedia.org/wiki/%D0%94%D0%B5%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D0%B2%D0%BE_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE)
 6. [neerc.ifmo](https://neerc.ifmo.ru/wiki/index.php?title=%D0%94%D0%B5%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D0%B2%D0%BE_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE)
 

@@ -1,108 +1,95 @@
 ﻿// SearchTrees.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 
-//#define _CRTDBG_MAP_ALLOC
-//#include <stdlib.h>
-//#include <crtdbg.h>
-
+#pragma once
 #include "pch.h"
 #include <iostream>
 #include <string>
 #include <list>
+#include <vector>
 #include <random>
+#include <map>
+#include <chrono>
 #include "avl_tree.h"
+#include "Treap.h"
 #include "SplayTree.h"
+#include "SortedArray.h"
 
 using namespace std;
+
+//vector<int> FillRandomNumbers(int &size)
+//{
+//	vector<int> result(size);
+//
+//	bool alreadyThere;
+//	for (int i = 0; i < size; )
+//	{
+//		alreadyThere = false;
+//		int newRanomValue = distribution(generator);
+//
+//		for (int j = 0; j < i; j++)
+//		{
+//			if (arr[j] == newRanomValue)
+//			{
+//				alreadyThere = true;
+//				break;
+//			}
+//		}
+//		if (!alreadyThere)
+//		{
+//			arr[i] = newRanomValue;
+//			i++;
+//		}
+//	}
+//}
 
 int main()
 {
 	random_device random_device;
 	mt19937 generator(random_device());
-	uniform_int_distribution<int> distribution(-10000, 10000);
+	uniform_int_distribution<int> distribution(-10000000, 10000000);
 
-	//avl_tree<int, int> avl_tree;
+	vector<int> keys_int;
+	vector<string> keys_string;
 
-	//int t;
 
-	//for (int i = 0; i < 100; i++)
-	//{
-	//	int key = distribution(generator);
-	//	int data = distribution(generator);
+	avl_tree	<int, int> avl_tree_int;
+	Treap		<int, int> treap_int;
+	SplayTree	<int, int> splay_tree_int;
+	map			<int, int> red_black_tree_int;
+	SortedArray	<int, int> sorted_array_int;
 
-	//	if (i == 20) t = key;
-	//	cout << "key & data = " << key << " & " << data << endl;
-	//	avl_tree.Add(key, data);
-	//}
+	avl_tree	<string, int> avl_tree_string;
+	Treap		<string, int> treap_string;
+	SplayTree	<string, int> splay_tree_string;
+	map			<string, int> red_black_tree_string;
+	SortedArray	<string, int> sorted_array_string;
 
-	//cout << "Min = " << avl_tree.Min()->GetKey() << endl;
-	//cout << "Max = " << avl_tree.Max()->GetKey() << endl;
-	//cout << "Find = " << avl_tree.Find(t)->GetKey() << endl;
-	//cout << "To delete = " << t << endl;
-	//avl_tree.Remove(t);
 
-	//avl_tree.Add(100, 100);
-	//avl_tree.Add(88, 100);
-	//avl_tree.Add(77, 100);
-
-	SplayTree<int, int> splay_tree;
-	const int SIZE = 100;
-	int *arr = new int[SIZE];
-	
-	bool alreadyThere;
-	for (int i = 0; i < SIZE; )
+	const int SIZE = 1000;
+	sorted_array_int = SortedArray<int, int>(SIZE);
+	for (int i = 0; i < SIZE; i++)
 	{
-		alreadyThere = false;
-		int newRanomValue = distribution(generator);
+		int key = distribution(generator);
+		int value = distribution(generator);
 
-		for (int j = 0; j < i; j++)
+		sorted_array_int.Insert(key, value);
+	}
+
+	auto start = chrono::steady_clock::now();
+	for (int i = 0; i < SIZE * 100; i++)
+	{
+		int key = distribution(generator);
+		
+		if (sorted_array_int.Contains(key))
 		{
-			if (arr[j] == newRanomValue)
-			{
-				alreadyThere = true;
-				break;
-			}
-		}
-		if (!alreadyThere)
-		{
-			arr[i] = newRanomValue;
-			i++;
+			sorted_array_int.Remove(key);
+
+			cout << "key = " << key << " find" << endl;
 		}
 	}
-
-	for (int i = 0; i < SIZE; i++)
-	{
-		int data = distribution(generator);
-
-		cout << i << " key & data = " << arr[i] << " & " << data << endl;
-		splay_tree.Insert(arr[i], data);
-	}
-
-	for (int i = 0; i < SIZE; i++)
-	{
-		cout << splay_tree.Contains(arr[i]) << " Search " << arr[i] << " has = " << splay_tree.Search(arr[i]) << endl;
-	}
-
-	for (int i = 0; i < SIZE; i++)
-	{
-		int key = (i + 5) % SIZE;
-
-		cout << key << " to delete with key = " << arr[key] << endl;
-		splay_tree.Remove(arr[key]);
-	}
-
-	//for (int i = 0; i < 100000; i++)
-	//{
-	//	int key = distribution(generator);
-
-	//	cout << splay_tree.Contains(key) << " Search " << key << " has = " << splay_tree.Search(key) << endl;
-	//}
-
-	//cout << "Elem with key " << arr[100] << " = " << splay_tree.Search(arr[100]) << endl;
-
-	cout << "Splay Tree correct" << endl;
-
-	//_CrtDumpMemoryLeaks();
+	auto end = chrono::steady_clock::now();
+	cout << chrono::duration<double, milli>(end - start).count() << endl;
 
 	return 0;
 }

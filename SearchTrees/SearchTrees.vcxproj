@@ -152,11 +152,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AssociativePair.h" />
+    <ClInclude Include="AVLNode.h" />
+    <ClInclude Include="AVLTree.h" />
     <ClInclude Include="avl_node.h" />
     <ClInclude Include="avl_tree.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SortedArray.h" />
     <ClInclude Include="SplayNode.h" />
     <ClInclude Include="SplayTree.h" />
+    <ClInclude Include="Treap.h" />
+    <ClInclude Include="TreapNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -167,10 +173,6 @@
     </ClCompile>
     <ClCompile Include="SearchTrees.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

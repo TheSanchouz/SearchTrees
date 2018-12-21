@@ -5,13 +5,9 @@ template<typename Key, typename Data>
 class SplayTree
 {
 	typedef SplayNode<Key, Data> SplayNode;
+
 private:
 	SplayNode *root;
-
-	SplayNode* GetRoot() const
-	{
-		return root;
-	}
 
 	SplayNode* _Successor(SplayNode *localRoot) const
 	{
@@ -214,12 +210,48 @@ private:
 
 public:
 	SplayTree()
+		: root(nullptr) {}
+	~SplayTree() 
 	{
-		root = nullptr;
-	}
-	virtual ~SplayTree() 
-	{
-		//delete root;
+		SplayNode *parentCurrent = nullptr;
+		SplayNode *current = root;
+
+		while (current != nullptr)
+		{
+			parentCurrent = current->GetParent();
+
+			if (current->GetLeftChild() != nullptr)
+			{
+				current = current->GetLeftChild();
+			}
+			else if (current->GetRightChild() != nullptr)
+			{
+				current = current->GetRightChild();
+			}
+			else //нет ни левого ребенка, ни правого
+			{
+				if (current != root)
+				{
+					if (parentCurrent->GetLeftChild() == current)
+					{
+						parentCurrent->SetLeftChild(nullptr);
+					}
+					else if (parentCurrent->GetRightChild() == current)
+					{
+						parentCurrent->SetRightChild(nullptr);
+					}
+				}
+
+				current->SetParent(nullptr);
+				delete current;
+
+				current = parentCurrent;
+				if (parentCurrent != nullptr)
+				{
+					parentCurrent = parentCurrent->GetParent();
+				}
+			}
+		}
 	}
 
 	void Insert(const Key &key, const Data &data)
@@ -325,14 +357,4 @@ public:
 		return (predecessor != nullptr) ? predecessor->GetData() : NULL;
 	}
 
-	void Merge(SplayTree t)
-	{
-		SplayNode *max = _Maximum(root);
-
-		if (max != nullptr)
-		{
-			max->SetRightChild(t->GetRoot());
-			t->GetRoot()->SetParent(max);
-		}
-	}
 };

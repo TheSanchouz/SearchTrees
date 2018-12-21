@@ -6,6 +6,7 @@ template<typename Key, typename Data>
 class avl_tree
 {
 	typedef avl_node<Key, Data> avl_node;
+
 private:
 	avl_node *root;
 
@@ -130,10 +131,8 @@ private:
 	}
 
 public:
-	avl_tree()
-	{
-		root = nullptr;
-	}
+	avl_tree() 
+		: root(nullptr) {}
 	virtual ~avl_tree()
 	{
 		delete root;

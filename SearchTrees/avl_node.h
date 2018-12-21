@@ -11,11 +11,9 @@ private:
 	avl_node *rightChild;
 
 public:
-	avl_node(Key key, Data data) : key(key), data(data)
-	{
-		leftChild = nullptr;
-		rightChild = nullptr;
-	};
+	avl_node(Key key, Data data)
+		: key(key), data(data), leftChild(nullptr), rightChild(nullptr) {}
+
 	~avl_node()
 	{
 		delete leftChild;

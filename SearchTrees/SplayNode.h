@@ -12,16 +12,17 @@ private:
 	SplayNode *rightChild;
 
 public:
-	SplayNode(Key key, Data data) : key(key), data(data),
-		parent(nullptr), leftChild(nullptr), rightChild(nullptr) 
-	{
-
-	}
+	SplayNode(Key key, Data data)
+		: key(key), data(data), parent(nullptr), leftChild(nullptr), rightChild(nullptr) {}
 	~SplayNode()
 	{
-		//delete leftChild;
-		//delete rightChild;
+		delete leftChild;
+		delete rightChild;
+
+		parent = nullptr;
+		//std::cout << "delete key = " << key << " and data = " << data << std::endl;
 	}
+
 
 	Key GetKey() const
 	{
@@ -31,6 +32,7 @@ public:
 	{
 		return data;
 	}
+
 
 	void SetParent(SplayNode *node)
 	{
@@ -56,7 +58,6 @@ public:
 	SplayNode* GetRightChild() const
 	{
 		return rightChild;
-
 	}
 
 };

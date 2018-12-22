@@ -1,17 +1,19 @@
 #pragma once
 #include <random>
 #include <limits>
+#include <utility>
 #include "TreapNode.h"
 
 template<typename Key, typename Data>
 class Treap
 {
 	typedef TreapNode<Key, Data> TreapNode;
+	typedef std::pair<TreapNode*, TreapNode*> pairTreapNode;
 
 private:
-	//std::random_device random_device;
-	//std::mt19937 generator(random_device());
-	//std::uniform_int_distribution<std::uint64_t> distribution(1, std::uint64_t);
+	std::random_device random_device;
+	std::mt19937 generator;
+	std::uniform_int_distribution<uint64_t> distribution;
 
 	TreapNode *root;
 
@@ -38,96 +40,124 @@ private:
 
 		return nullptr;
 	}
-	void _Split(Key key, Treap &leftTreap, Treap &rightTreap)
+	pairTreapNode _Split(TreapNode *root, const Key &key)
 	{
-		TreapNode *splittedPivot = _Search(key);
-
-		if (splittedPivot != nullptr)
+		if (root == nullptr)
 		{
-			TreapNode *leftChild = splittedPivot->GetLeftChild();
-			TreapNode *rightChild = splittedPivot->GetRightChild();
-
-			if (leftChild != nullptr)
-			{
-				leftTreap.root = new TreapNode(leftChild->GetKey(), leftChild->GetData(), leftChild->GetPriority());
-				leftTreap.root->SetLeftChild(leftChild->GetLeftChild());
-				leftTreap.root->SetRightChild(leftChild->GetRightChild());
-			}
-			else
-			{
-				leftTreap.root = nullptr;
-			}
-
-			if (rightChild != nullptr)
-			{
-				rightTreap.root = new TreapNode(rightChild->GetKey(), rightChild->GetData(), rightChild->GetPriority());
-				rightTreap.root->SetLeftChild(rightChild->GetLeftChild());
-				rightTreap.root->SetRightChild(rightChild->GetRightChild());
-			}
-			else
-			{
-				rightTreap.root = nullptr;
-			}
+			return pairTreapNode(nullptr, nullptr);
 		}
+
+		if (root->GetKey() < key)
+		{
+			pairTreapNode splittedNode = _Split(root->GetRightChild(), key);
+			root->SetRightChild(splittedNode.first);
+			return pairTreapNode(root, splittedNode.second);
+		}
+		else
+		{
+			pairTreapNode splittedNode = _Split(root->GetLeftChild(), key);
+			root->SetLeftChild(splittedNode.second);
+			return pairTreapNode(splittedNode.first, root);
+		}
+	}
+	TreapNode* _Merge(TreapNode *left, TreapNode *right)
+	{
+		if (left == nullptr) return right;
+		if (right == nullptr) return left;
+
+		if (left->GetPriority() > right->GetPriority())
+		{
+			left->SetRightChild(_Merge(left->GetRightChild(), right));
+			return left;
+		}
+		else
+		{
+			right->SetLeftChild(_Merge(left, right->GetLeftChild()));
+			return right;
+		}
+	}
+
+	TreapNode* _Insert(TreapNode *root, TreapNode *insertNode)
+	{
+		if (root == nullptr)
+		{
+			return insertNode;
+		}
+
+		if (root->GetPriority() < insertNode->GetPriority())
+		{
+			pairTreapNode splittedNode = _Split(root, insertNode->GetKey());
+			insertNode->SetLeftChild(splittedNode.first);
+			insertNode->SetRightChild(splittedNode.second);
+
+			return insertNode;
+		}
+
+		if (root->GetKey() < insertNode->GetKey())
+		{
+			root->SetRightChild(_Insert(root->GetRightChild(), insertNode));
+		}
+		else
+		{
+			root->SetLeftChild(_Insert(root->GetLeftChild(), insertNode));
+		}
+
+		return root;
+	}
+	TreapNode* _Remove(TreapNode *root, const Key &key)
+	{
+		if (root == nullptr)
+		{
+			return nullptr;
+		}
+
+		if (root->GetKey() == key)
+		{
+			TreapNode *node = _Merge(root->GetLeftChild(), root->GetRightChild());
+			root->SetLeftChild(nullptr);
+			root->SetRightChild(nullptr);
+			delete root;
+			return node;
+		}
+		else if (root->GetKey() < key)
+		{
+			root->SetRightChild(_Remove(root->GetRightChild(), key));
+		}
+		else
+		{
+			root->SetLeftChild(_Remove(root->GetLeftChild(), key));
+		}
+
+		return root;
 	}
 
 public:
 	Treap()
-		: root(nullptr) {}
+		: root(nullptr), generator(random_device()), distribution(std::uniform_int_distribution<uint64_t>(1, UINT64_MAX))
+	{
+
+	}
 	~Treap()
 	{
-		TreapNode *parentCurrent = nullptr;
-		TreapNode *current = root;
-
-		while (current != nullptr)
-		{
-			parentCurrent = current->GetParent();
-
-			if (current->GetLeftChild() != nullptr)
-			{
-				current = current->GetLeftChild();
-			}
-			else if (current->GetRightChild() != nullptr)
-			{
-				current = current->GetRightChild();
-			}
-			else //нет ни левого ребенка, ни правого
-			{
-				if (current != root)
-				{
-					if (parentCurrent->GetLeftChild() == current)
-					{
-						parentCurrent->SetLeftChild(nullptr);
-					}
-					else if (parentCurrent->GetRightChild() == current)
-					{
-						parentCurrent->SetRightChild(nullptr);
-					}
-				}
-
-				current->SetParent(nullptr);
-				delete current;
-
-				current = parentCurrent;
-				if (parentCurrent != nullptr)
-				{
-					parentCurrent = parentCurrent->GetParent();
-				}
-			}
-		}
+		delete root;
 	}
 
-	void Insert(Key key, Data data, std::uint64_t priority)
+	void Insert(const Key &key, const Data &data)
 	{
+		uint64_t priority = distribution(generator);
 
+		root = _Insert(root, new TreapNode(key, data, priority));
 	}
-	void Remove(Key key)
+	void Remove(const Key &key)
 	{
-
+		root = _Remove(root, key);
 	}
 	Data Search(Key key)
 	{
 
 	}
+	bool Contains(const Key &key)
+	{
+		return _Search(key) != nullptr;
+	}
 };
-

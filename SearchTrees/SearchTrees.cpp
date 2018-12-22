@@ -29,7 +29,7 @@ using namespace std;
 //
 //		for (int j = 0; j < i; j++)
 //		{
-//			if (arr[j] == newRanomValue)
+//			if (result[j] == newRanomValue)
 //			{
 //				alreadyThere = true;
 //				break;
@@ -37,11 +37,12 @@ using namespace std;
 //		}
 //		if (!alreadyThere)
 //		{
-//			arr[i] = newRanomValue;
+//			result[i] = newRanomValue;
 //			i++;
 //		}
 //	}
 //}
+
 
 int main()
 {
@@ -66,30 +67,27 @@ int main()
 	SortedArray	<string, int> sorted_array_string;
 
 
-	const int SIZE = 1000;
-	sorted_array_int = SortedArray<int, int>(SIZE);
+	const int SIZE = 100000;
 	for (int i = 0; i < SIZE; i++)
 	{
 		int key = distribution(generator);
-		int value = distribution(generator);
+		int data = distribution(generator);
 
-		sorted_array_int.Insert(key, value);
+		treap_int.Insert(key, data);
 	}
 
-	auto start = chrono::steady_clock::now();
-	for (int i = 0; i < SIZE * 100; i++)
+	for (int i = 0; i < SIZE; i++)
 	{
 		int key = distribution(generator);
-		
-		if (sorted_array_int.Contains(key))
-		{
-			sorted_array_int.Remove(key);
 
-			cout << "key = " << key << " find" << endl;
+		if (treap_int.Contains(key))
+		{
+			cout << "key = " << key << " in treap will be deleted" << endl;
 		}
+
+		treap_int.Remove(key);
 	}
-	auto end = chrono::steady_clock::now();
-	cout << chrono::duration<double, milli>(end - start).count() << endl;
+
 
 	return 0;
 }

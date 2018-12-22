@@ -6,21 +6,18 @@ class TreapNode
 private:
 	Key key;
 	Data data;
-	std::uint64_t priority;
+	uint64_t priority;
 
-	TreapNode *parent;
 	TreapNode *leftChild;
 	TreapNode *rightChild;
 
 public:
-	TreapNode(Key key, Data data, std::uint64_t priority)
-		: key(key), data(data), priority(priority), parent(nullptr), leftChild(nullptr), rightChild(nullptr) {};
+	TreapNode(Key key, Data data, uint64_t priority)
+		: key(key), data(data), priority(priority), leftChild(nullptr), rightChild(nullptr) {};
 	~TreapNode()
 	{
 		delete leftChild;
 		delete rightChild;
-
-		parent = nullptr;
 	}
 
 
@@ -38,10 +35,6 @@ public:
 	}
 
 
-	void SetParent(TreapNode *node)
-	{
-		parent = node;
-	}
 	void SetLeftChild(TreapNode *node)
 	{
 		leftChild = node;
@@ -51,10 +44,6 @@ public:
 		rightChild = node;
 	}
 
-	TreapNode* GetParent() const
-	{
-		return parent;
-	}
 	TreapNode* GetLeftChild() const
 	{
 		return leftChild;

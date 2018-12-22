@@ -169,7 +169,7 @@ public:
 
 		return false;
 	}
-	avl_node* Find(Key key)
+	avl_node* Search(Key key)
 	{
 		avl_node *cur = root;
 

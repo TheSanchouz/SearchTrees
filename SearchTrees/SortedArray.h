@@ -8,8 +8,8 @@ class SortedArray
 {
 	typedef AssociativePair<Key, Value> AssociativePair;
 private:
-	size_t size;
-	size_t count;
+	long long int size;
+	long long int count;
 	bool isSorted;
 	std::vector<AssociativePair> pairs;
 
@@ -27,16 +27,16 @@ private:
 			isSorted = true;
 		}
 	}
-	size_t _BinarySearch(const Key &key)
+	long long int _BinarySearch(const Key &key)
 	{
 		_Sort();
 
-		size_t l = -1;
-		size_t start = 0;
-		size_t finish = count - 1;
-		size_t middle = (start + finish) / 2;
+		long long int l = -1;
+		long long int start = 0;
+		long long int finish = count - 1;
+		long long int middle = (start + finish) / 2;
 
-		while ((l == -1) && (start <= finish) && (start != middle))
+		while ((l == -1) && (start <= finish))
 		{
 			middle = (start + finish) / 2;
 
@@ -54,7 +54,7 @@ private:
 	}
 
 public:
-	SortedArray(size_t _size = 0)
+	SortedArray(long long int _size = 0)
 	{
 		size = _size;
 		count = 0;

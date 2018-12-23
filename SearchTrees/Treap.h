@@ -17,7 +17,6 @@ private:
 
 	TreapNode *root;
 
-
 	TreapNode* _Search(const Key &key)
 	{
 		TreapNode *searchedElement = root;
@@ -32,7 +31,7 @@ private:
 			{
 				searchedElement = searchedElement->GetLeftChild();
 			}
-			else if (key > searchedElement->GetKey())
+			else //if (key > searchedElement->GetKey())
 			{
 				searchedElement = searchedElement->GetRightChild();
 			}
@@ -135,7 +134,23 @@ public:
 	Treap()
 		: root(nullptr), generator(random_device()), distribution(std::uniform_int_distribution<uint64_t>(1, UINT64_MAX))
 	{
+	
+	}
+	Treap(const Treap &src)
+	{
+		root = src.root;
 
+		generator = src.generator;
+		distribution = src.distribution;
+	}
+	Treap operator=(const Treap &src)
+	{
+		root = src.root;
+
+		generator = src.generator;
+		distribution = src.distribution;
+
+		return *this;
 	}
 	~Treap()
 	{
@@ -152,9 +167,11 @@ public:
 	{
 		root = _Remove(root, key);
 	}
-	Data Search(Key key)
+	Data Search(const Key &key)
 	{
+		TreapNode *searchedElement = _Search(key);
 
+		return (searchedElement != nullptr) ? searchedElement->GetData() : NULL;
 	}
 	bool Contains(const Key &key)
 	{

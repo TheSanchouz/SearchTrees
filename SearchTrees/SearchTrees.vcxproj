@@ -143,6 +143,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,8 +156,7 @@
     <ClInclude Include="AssociativePair.h" />
     <ClInclude Include="AVLNode.h" />
     <ClInclude Include="AVLTree.h" />
-    <ClInclude Include="avl_node.h" />
-    <ClInclude Include="avl_tree.h" />
+    <ClInclude Include="generatorURN.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SortedArray.h" />
     <ClInclude Include="SplayNode.h" />

@@ -69,7 +69,7 @@ private:
 		return maximum;
 	}
 
-	SplayNode* _Search(const Key &key)
+	SplayNode* _Search(Key key)
 	{
 		SplayNode *searchedElement = root;
 
@@ -326,7 +326,7 @@ public:
 			delete removeElement;
 		}
 
-		std::cout << root << std::endl;
+		//std::cout << root << std::endl;
 	}
 	Data Search(const Key &key)
 	{

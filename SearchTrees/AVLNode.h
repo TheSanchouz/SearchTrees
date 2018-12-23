@@ -7,19 +7,20 @@ private:
 	Key key;
 	Data data;
 
-	AVLNode *parent;
 	AVLNode *leftChild;
 	AVLNode *rightChild;
 
 public:
+	unsigned int height;
+
 	AVLNode(Key key, Data data)
-		: key(key), data(data), parent(nullptr), leftChild(nullptr), rightChild(nullptr) {};
+		: key(key), data(data), leftChild(nullptr), rightChild(nullptr), height(1) {}
+
 	~AVLNode()
 	{
 		delete leftChild;
 		delete rightChild;
 	}
-
 
 	Key GetKey() const
 	{
@@ -31,10 +32,6 @@ public:
 	}
 
 
-	void SetParent(AVLNode *node)
-	{
-		parent = node;
-	}
 	void SetLeftChild(AVLNode *node)
 	{
 		leftChild = node;
@@ -44,10 +41,6 @@ public:
 		rightChild = node;
 	}
 
-	AVLNode* GetParent() const
-	{
-		return parent;
-	}
 	AVLNode* GetLeftChild() const
 	{
 		return leftChild;
@@ -55,6 +48,6 @@ public:
 	AVLNode* GetRightChild() const
 	{
 		return rightChild;
-
 	}
 };
+

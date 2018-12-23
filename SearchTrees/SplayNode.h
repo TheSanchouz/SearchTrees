@@ -16,8 +16,8 @@ public:
 		: key(key), data(data), parent(nullptr), leftChild(nullptr), rightChild(nullptr) {}
 	~SplayNode()
 	{
-		delete leftChild;
-		delete rightChild;
+		//delete leftChild;
+		//delete rightChild;
 
 		parent = nullptr;
 		//std::cout << "delete key = " << key << " and data = " << data << std::endl;
